@@ -1,12 +1,5 @@
 package org.osmdroid.samplefragments;
 
-import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.drawing.OsmPath;
-import org.osmdroid.views.overlay.Overlay;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +7,13 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.os.Bundle;
+
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.drawing.OsmPath;
+import org.osmdroid.views.overlay.Overlay;
 
 /**
  * 
@@ -30,12 +30,12 @@ public class SampleOsmPath extends BaseSampleFragment {
 	private OsmPathOverlay mOsmPathOverlay;
 
 	static {
-		sCentralParkBoundingBox = new BoundingBoxE6(40.796788, -73.949232, 40.768094, -73.981762);
+    sCentralParkBoundingBox = new BoundingBoxE6(40.796788, -73.949232, 40.768094, -73.981762);
 
-		sPaint = new Paint();
-		sPaint.setColor(Color.argb(175, 255, 0, 0));
-		sPaint.setStyle(Style.FILL);
-	}
+    sPaint = new Paint();
+    sPaint.setColor(Color.argb(175, 255, 0, 0));
+    sPaint.setStyle(Style.FILL);
+  }
 	@Override
 	public String getSampleTitle() {
 		return TITLE;
@@ -71,13 +71,15 @@ public class SampleOsmPath extends BaseSampleFragment {
 
 		@Override
 		protected void draw(Canvas c, MapView osmv, boolean shadow) {
-			if (shadow)
-				return;
+			if (shadow) {
+        return;
+      }
 
 			final Projection proj = osmv.getProjection();
 
-			if (mPath == null || mLastZoomLevel != proj.getZoomLevel())
-				mPath = createPath();
+			if (mPath == null || mLastZoomLevel != proj.getZoomLevel()) {
+        mPath = createPath();
+      }
 
 			mLastZoomLevel = proj.getZoomLevel();
 

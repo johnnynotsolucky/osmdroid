@@ -6,14 +6,14 @@ package org.osmdroid.samplefragments;
  */
 public class SampleInvertedTiles_NightMode extends BaseSampleFragment {
 
-     @Override
-     public String getSampleTitle() {
-          return "Inverted Tiles";
-     }
-     
-     @Override
-     public void addOverlays() {
-		this.mMapView.getController().setInvertedTiles(true);
-	}
+  @Override
+  public String getSampleTitle() {
+    return "Inverted Tiles";
+  }
+
+  @Override
+  public void addOverlays() {
+    this.mMapView.getController().setInvertedTiles(true);
+  }
      
 }

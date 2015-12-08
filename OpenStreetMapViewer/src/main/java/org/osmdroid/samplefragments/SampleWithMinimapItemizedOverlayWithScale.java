@@ -63,61 +63,57 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 		final Context context = getActivity();
 
 		/* Itemized Overlay */
-		{
-			/* Create a static ItemizedOverlay showing some Markers on various cities. */
-			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-               for (int i=0; i < 500; i++){
-                    double random_lon=(Math.random() * 360) -180;
-                    double random_lat = (Math.random() * 180) - 90;
-                         items.add(new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
-                                   random_lon))); 
-               }
-			items.add(new OverlayItem("Berlin", "This is a relatively short SampleDescription.",
-					new GeoPoint(52518333, 13408333))); // Berlin
-			items.add(new OverlayItem(
-					"Washington",
-					"This SampleDescription is a pretty long one. Almost as long as a the great wall in china.",
-					new GeoPoint(38895000, -77036667))); // Washington
-			items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300,
-					-122419200))); // San Francisco
+		/* Create a static ItemizedOverlay showing some Markers on various cities. */
+		final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+						 for (int i=0; i < 500; i++){
+									double random_lon=(Math.random() * 360) -180;
+									double random_lat = (Math.random() * 180) - 90;
+											 items.add(new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
+																 random_lon)));
+						 }
+		items.add(new OverlayItem("Berlin", "This is a relatively short SampleDescription.",
+				new GeoPoint(52518333, 13408333))); // Berlin
+		items.add(new OverlayItem(
+				"Washington",
+				"This SampleDescription is a pretty long one. Almost as long as a the great wall in china.",
+				new GeoPoint(38895000, -77036667))); // Washington
+		items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300,
+				-122419200))); // San Francisco
 
-			/* OnTapListener for the Markers, shows a simple Toast. */
-			mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
-					new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-						@Override
-						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-							Toast.makeText(
-									context,
-									"Item '" + item.getTitle() + "' (index=" + index
-											+ ") got single tapped up", Toast.LENGTH_LONG).show();
-							return true;
-						}
+		/* OnTapListener for the Markers, shows a simple Toast. */
+		mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
+				new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+					@Override
+					public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+						Toast.makeText(
+								context,
+								"Item '" + item.getTitle() + "' (index=" + index
+										+ ") got single tapped up", Toast.LENGTH_LONG).show();
+						return true;
+					}
 
-						@Override
-						public boolean onItemLongPress(final int index, final OverlayItem item) {
-							Toast.makeText(
-									context,
-									"Item '" + item.getTitle() + "' (index=" + index
-											+ ") got long pressed", Toast.LENGTH_LONG).show();
-							return false;
-						}
-					}, mResourceProxy);
-			mMyLocationOverlay.setFocusItemsOnTap(true);
-			mMyLocationOverlay.setFocusedItem(0);
+					@Override
+					public boolean onItemLongPress(final int index, final OverlayItem item) {
+						Toast.makeText(
+								context,
+								"Item '" + item.getTitle() + "' (index=" + index
+										+ ") got long pressed", Toast.LENGTH_LONG).show();
+						return false;
+					}
+				}, mResourceProxy);
+		mMyLocationOverlay.setFocusItemsOnTap(true);
+		mMyLocationOverlay.setFocusedItem(0);
 
-			mMapView.getOverlays().add(mMyLocationOverlay);
+		mMapView.getOverlays().add(mMyLocationOverlay);
 
-			mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
-			mRotationGestureOverlay.setEnabled(false);
-			mMapView.getOverlays().add(mRotationGestureOverlay);
-		}
+		mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+		mRotationGestureOverlay.setEnabled(false);
+		mMapView.getOverlays().add(mRotationGestureOverlay);
 
 		/* MiniMap */
-		{
-			MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
-					mMapView.getTileRequestCompleteHandler());
-			mMapView.getOverlays().add(miniMapOverlay);
-		}
+		MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
+			mMapView.getTileRequestCompleteHandler());
+		mMapView.getOverlays().add(miniMapOverlay);
 
 		// Zoom and center on the focused item.
 		mMapView.getController().setZoom(5);

@@ -7,24 +7,24 @@ import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
  */
 public class SampleMapBox   extends BaseSampleFragment {
 
-    @Override
-    public String getSampleTitle() {
+
+  @Override
+  public String getSampleTitle() {
         return "MapBox";
     }
 
-    @Override
-    public void addOverlays() {
+  @Override
+  public void addOverlays() {
 
-        //this bit gets the key from the manifest
-        MapBoxTileSource.retrieveAccessToken(getContext());
-        MapBoxTileSource.retrieveMapBoxMapId(getContext());
-        MapBoxTileSource b=new MapBoxTileSource("MapBox",0,19,256, ".png");
+    //this bit gets the key from the manifest
+    MapBoxTileSource.retrieveAccessToken(getContext());
+    MapBoxTileSource.retrieveMapBoxMapId(getContext());
+    MapBoxTileSource b=new MapBoxTileSource("MapBox",0,19,256, ".png");
 
-        //you can also programmtically set the token and map id here
-        //b.setAccessToken("KEY");
-        //b.setMapboxMapid("KEY");
+    //you can also programmtically set the token and map id here
+    //b.setAccessToken("KEY");
+    //b.setMapboxMapid("KEY");
 
-        this.mMapView.setTileSource(b);
-    }
-
+    this.mMapView.setTileSource(b);
+  }
 }

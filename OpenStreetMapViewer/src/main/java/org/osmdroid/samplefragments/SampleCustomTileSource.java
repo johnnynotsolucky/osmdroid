@@ -9,22 +9,24 @@ import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
  */
 public class SampleCustomTileSource extends BaseSampleFragment{
 
+  @Override
+  public String getSampleTitle() {
+      return "Custom Tile Source";
+
+  }
+
+  @Override
+  public void addOverlays() {
+   mMapView.setTileSource(new OnlineTileSourceBase("USGS Topo", 0, 18, 256, "",
+     new String[] { "http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/" }) {
+
      @Override
-     public String getSampleTitle() {
-          return "Custom Tile Source";
-          
+     public String getTileURLString(MapTile aTile) {
+       return getBaseUrl() +
+         aTile.getZoomLevel() + "/" +
+         aTile.getY() + "/" +
+         aTile.getX() + mImageFilenameEnding;
      }
-      @Override
-     public void addOverlays() {
-          mMapView.setTileSource(new OnlineTileSourceBase("USGS Topo", 0, 18, 256, "", 
-               new String[] { "http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/" }) {
-               @Override
-               public String getTileURLString(MapTile aTile) {
-                    return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX()
-				+ mImageFilenameEnding;
-               }
-          });
-          
-     }
-     
+   });
+  }
 }

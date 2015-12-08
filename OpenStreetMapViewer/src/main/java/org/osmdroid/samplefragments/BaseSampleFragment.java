@@ -1,14 +1,14 @@
 package org.osmdroid.samplefragments;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxyImpl;
-import org.osmdroid.views.MapView;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.ResourceProxyImpl;
+import org.osmdroid.views.MapView;
 
 public abstract class BaseSampleFragment extends Fragment {
 
@@ -36,7 +36,8 @@ public abstract class BaseSampleFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-          this.mMapView.getController().setInvertedTiles(false);
+    this.mMapView.getController().setInvertedTiles(false);
+
 		addOverlays();
 
 		mMapView.setBuiltInZoomControls(true);

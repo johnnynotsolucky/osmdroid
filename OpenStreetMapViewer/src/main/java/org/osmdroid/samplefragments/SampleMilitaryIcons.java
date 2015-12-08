@@ -26,175 +26,177 @@ import org.osmdroid.views.overlay.OverlayItem;
  */
 public class SampleMilitaryIcons extends BaseSampleFragment {
 
-	// ===========================================================
-     // Constants
-     // ===========================================================
-     public static final String TITLE = "Military Icons";
 
-     private static final int MENU_ZOOMIN_ID = Menu.FIRST;
-     private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
-     private static final int MENU_ADDICONS_ID = MENU_ZOOMOUT_ID + 1;
-     private static final int MENU_LAST_ID = MENU_ADDICONS_ID + 1; // Always set to last unused id
+  // ===========================================================
+  // Constants
+  // ===========================================================
+  public static final String TITLE = "Military Icons";
 
-	// ===========================================================
-     // Fields
-     // ===========================================================
-     private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
-     private RotationGestureOverlay mRotationGestureOverlay;
-     private OverlayItem overlayItem;
-     List<Drawable> icons = new ArrayList<Drawable>(4);
+  private static final int MENU_ZOOMIN_ID = Menu.FIRST;
+  private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
+  private static final int MENU_ADDICONS_ID = MENU_ZOOMOUT_ID + 1;
+  private static final int MENU_LAST_ID = MENU_ADDICONS_ID + 1; // Always set to last unused id
 
-     @Override
-     public String getSampleTitle() {
-          return TITLE;
-     }
+  // ===========================================================
+  // Fields
+  // ===========================================================
+  private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
+  private RotationGestureOverlay mRotationGestureOverlay;
+  private OverlayItem overlayItem;
+  List<Drawable> icons = new ArrayList<Drawable>(4);
 
-	// ===========================================================
-     // Constructors
-     // ===========================================================
-     /**
-      * Called when the activity is first created.
-      */
-     @Override
-     public void onActivityCreated(Bundle savedInstanceState) {
-          super.onActivityCreated(savedInstanceState);
-     }
+  @Override
+  public String getSampleTitle() {
+      return TITLE;
+  }
 
-     @Override
-     protected void addOverlays() {
-          super.addOverlays();
+  // ===========================================================
+  // Constructors
+  // ===========================================================
+  /**
+  * Called when the activity is first created.
+  */
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+  }
 
-          final Context context = getActivity();
+  @Override
+  protected void addOverlays() {
+    super.addOverlays();
+
+    final Context context = getActivity();
 
 
-          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sfgpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.shgpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sngpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sugpuci));
+    icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sfgpuci));
+    icons.add(getResources().getDrawable(org.osmdroid.R.drawable.shgpuci));
+    icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sngpuci));
+    icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sugpuci));
 
-          /* Itemized Overlay */
-          {
-               /* OnTapListener for the Markers, shows a simple Toast. */
-               mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(new ArrayList<OverlayItem>(),
-                    new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                         @Override
-                         public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                              Toast.makeText(
-                                   context,
-                                   "Item '" + item.getTitle() + "' (index=" + index
-                                   + ") got single tapped up", Toast.LENGTH_LONG).show();
-                              return true;
-                         }
+    /* Itemized Overlay */
+    /* OnTapListener for the Markers, shows a simple Toast. */
+    mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(new ArrayList<OverlayItem>(),
+      new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+        @Override
+        public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+          Toast.makeText(
+            context,
+            "Item '" + item.getTitle() + "' (index=" + index
+            + ") got single tapped up", Toast.LENGTH_LONG).show();
 
-                         @Override
-                         public boolean onItemLongPress(final int index, final OverlayItem item) {
-                              Toast.makeText(
-                                   context,
-                                   "Item '" + item.getTitle() + "' (index=" + index
-                                   + ") got long pressed", Toast.LENGTH_LONG).show();
-                              return false;
-                         }
-                    }, mResourceProxy);
-               mMyLocationOverlay.setFocusItemsOnTap(true);
-               mMyLocationOverlay.setFocusedItem(0);
+            return true;
+        }
 
-               //generates 500 randomized points
-               addIcons(500);
+        @Override
+        public boolean onItemLongPress(final int index, final OverlayItem item) {
+            Toast.makeText(
+              context,
+              "Item '" + item.getTitle() + "' (index=" + index
+              + ") got long pressed", Toast.LENGTH_LONG).show();
 
-               mMapView.getOverlays().add(mMyLocationOverlay);
+            return false;
+        }
+      }, mResourceProxy);
 
-               mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
-               mRotationGestureOverlay.setEnabled(false);
-               mMapView.getOverlays().add(mRotationGestureOverlay);
-          }
+    mMyLocationOverlay.setFocusItemsOnTap(true);
+    mMyLocationOverlay.setFocusedItem(0);
 
-          /* MiniMap */
-          {
-               MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
-                    mMapView.getTileRequestCompleteHandler());
-               mMapView.getOverlays().add(miniMapOverlay);
-          }
+    //generates 500 randomized points
+    addIcons(500);
 
-          // Zoom and center on the focused item.
-          mMapView.getController().setZoom(5);
-          IGeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
-          mMapView.getController().animateTo(geoPoint);
+    mMapView.getOverlays().add(mMyLocationOverlay);
 
-          setHasOptionsMenu(true);
-          Toast.makeText(context, "Icon selection and location are random!", Toast.LENGTH_LONG).show();;
-     }
+    mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+    mRotationGestureOverlay.setEnabled(false);
+    mMapView.getOverlays().add(mRotationGestureOverlay);
 
-	// ===========================================================
-     // Getter & Setter
-     // ===========================================================
-	// ===========================================================
-     // Methods from SuperClass/Interfaces
-     // ===========================================================
-     @Override
-     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-          // Put overlay items first
-          mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
+    /* MiniMap */
+    MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
+      mMapView.getTileRequestCompleteHandler());
+    mMapView.getOverlays().add(miniMapOverlay);
 
-          menu.add(0, MENU_ZOOMIN_ID, Menu.NONE, "ZoomIn");
-          menu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
-          menu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
-          menu.add(0, MENU_ADDICONS_ID, Menu.NONE, "AddIcons");
+    // Zoom and center on the focused item.
+    mMapView.getController().setZoom(5);
+    IGeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
+    mMapView.getController().animateTo(geoPoint);
 
-          super.onCreateOptionsMenu(menu, inflater);
-     }
+    setHasOptionsMenu(true);
+    Toast.makeText(context, "Icon selection and location are random!", Toast.LENGTH_LONG).show();
+  }
 
-     @Override
-     public void onPrepareOptionsMenu(Menu menu) {
-          mMapView.getOverlayManager().onPrepareOptionsMenu(menu, MENU_LAST_ID, mMapView);
-          super.onPrepareOptionsMenu(menu);
-     }
+  // ===========================================================
+  // Getter & Setter
+  // ===========================================================
+  // ===========================================================
+  // Methods from SuperClass/Interfaces
+  // ===========================================================
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    // Put overlay items first
+    mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
 
-     @Override
-     public boolean onOptionsItemSelected(MenuItem item) {
-          if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {
-               return true;
-          }
+    menu.add(0, MENU_ZOOMIN_ID, Menu.NONE, "ZoomIn");
+    menu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
+    menu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
+    menu.add(0, MENU_ADDICONS_ID, Menu.NONE, "AddIcons");
 
-          switch (item.getItemId()) {
-               case MENU_ZOOMIN_ID:
-                    mMapView.getController().zoomIn();
-                    return true;
+    super.onCreateOptionsMenu(menu, inflater);
+  }
 
-               case MENU_ZOOMOUT_ID:
-                    mMapView.getController().zoomOut();
-                    return true;
-               case MENU_ADDICONS_ID:
-                    addIcons(500);
-                    return true;
-          }
-          return false;
-     }
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    mMapView.getOverlayManager().onPrepareOptionsMenu(menu, MENU_LAST_ID, mMapView);
+    super.onPrepareOptionsMenu(menu);
+  }
 
-     private void addIcons(int count) {
-           /* Create a static ItemizedOverlay showing some Markers on various cities. */
-          final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-          for (int i = 0; i < count; i++) {
-               double random_lon = (Math.random() * 360) - 180;
-               double random_lat = (Math.random() * 180) - 90;
-               overlayItem = new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
-                       random_lon));
-               int index = (int) (Math.random() * (icons.size()));
-               if (index == icons.size()) {
-                    index--;
-               }
-               overlayItem.setMarker(icons.get(index));
-               items.add(overlayItem);
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {
+      return true;
+    }
 
-          }
-          mMyLocationOverlay.addItems(items);
-          Toast.makeText(getActivity(), count + " icons added! Current size: " + mMyLocationOverlay.size(), Toast.LENGTH_LONG).show();
+    switch (item.getItemId()) {
+      case MENU_ZOOMIN_ID:
+        mMapView.getController().zoomIn();
+        return true;
 
-     }
+      case MENU_ZOOMOUT_ID:
+        mMapView.getController().zoomOut();
+        return true;
+      case MENU_ADDICONS_ID:
+        addIcons(500);
+        return true;
+    }
+    return false;
+  }
 
-     // ===========================================================
-     // Methods
-     // ===========================================================
-	// ===========================================================
-     // Inner and Anonymous Classes
-     // ===========================================================
+  private void addIcons(int count) {
+    /* Create a static ItemizedOverlay showing some Markers on various cities. */
+    final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+    for (int i = 0; i < count; i++) {
+      double random_lon = (Math.random() * 360) - 180;
+      double random_lat = (Math.random() * 180) - 90;
+      overlayItem = new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
+        random_lon));
+      int index = (int) (Math.random() * (icons.size()));
+      if (index == icons.size()) {
+        index--;
+      }
+
+      overlayItem.setMarker(icons.get(index));
+      items.add(overlayItem);
+
+    }
+
+    mMyLocationOverlay.addItems(items);
+    Toast.makeText(getActivity(), count + " icons added! Current size: " +
+      mMyLocationOverlay.size(), Toast.LENGTH_LONG).show();
+  }
+
+  // ===========================================================
+  // Methods
+  // ===========================================================
+  // ===========================================================
+  // Inner and Anonymous Classes
+  // ===========================================================
 }

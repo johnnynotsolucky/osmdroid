@@ -68,71 +68,65 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 				LayoutParams.FILL_PARENT));
 
 		/* Scale Bar Overlay */
-		{
-			this.mScaleBarOverlay = new ScaleBarOverlay(this, mResourceProxy);
-			this.mOsmv.getOverlays().add(mScaleBarOverlay);
-			// Scale bar tries to draw as 1-inch, so to put it in the top center, set x offset to
-			// half screen width, minus half an inch.
-			this.mScaleBarOverlay.setScaleBarOffset(
-					(int) (getResources().getDisplayMetrics().widthPixels / 2 - getResources()
-							.getDisplayMetrics().xdpi / 2), 10);
-		}
+		this.mScaleBarOverlay = new ScaleBarOverlay(this, mResourceProxy);
+		this.mOsmv.getOverlays().add(mScaleBarOverlay);
+		// Scale bar tries to draw as 1-inch, so to put it in the top center, set x offset to
+		// half screen width, minus half an inch.
+		this.mScaleBarOverlay.setScaleBarOffset(
+				(int) (getResources().getDisplayMetrics().widthPixels / 2 - getResources()
+						.getDisplayMetrics().xdpi / 2), 10);
 
 		/* SingleLocation-Overlay */
-		{
-			/*
-			 * Create a static Overlay showing a single location. (Gets updated in
-			 * onLocationChanged(Location loc)!
-			 */
-			this.mMyLocationOverlay = new SimpleLocationOverlay(this, mResourceProxy);
-			this.mOsmv.getOverlays().add(mMyLocationOverlay);
-		}
+
+		/*
+		 * Create a static Overlay showing a single location. (Gets updated in
+		 * onLocationChanged(Location loc)!
+		 */
+		this.mMyLocationOverlay = new SimpleLocationOverlay(this, mResourceProxy);
+		this.mOsmv.getOverlays().add(mMyLocationOverlay);
 
 		/* ZoomControls */
-		{
-			/* Create a ImageView with a zoomIn-Icon. */
-			final ImageView ivZoomIn = new ImageView(this);
-			ivZoomIn.setImageResource(org.osmdroid.R.drawable.zoom_in);
-			/* Create RelativeLayoutParams, that position it in the top right corner. */
-			final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(
-					RelativeLayout.LayoutParams.WRAP_CONTENT,
-					RelativeLayout.LayoutParams.WRAP_CONTENT);
-			zoominParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			zoominParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			rl.addView(ivZoomIn, zoominParams);
 
-			ivZoomIn.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					SampleExtensive.this.mOsmvController.zoomIn();
-				}
-			});
+		/* Create a ImageView with a zoomIn-Icon. */
+		final ImageView ivZoomIn = new ImageView(this);
+		ivZoomIn.setImageResource(org.osmdroid.R.drawable.zoom_in);
+		/* Create RelativeLayoutParams, that position it in the top right corner. */
+		final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.WRAP_CONTENT,
+				RelativeLayout.LayoutParams.WRAP_CONTENT);
+		zoominParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		zoominParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		rl.addView(ivZoomIn, zoominParams);
 
-			/* Create a ImageView with a zoomOut-Icon. */
-			final ImageView ivZoomOut = new ImageView(this);
-			ivZoomOut.setImageResource(org.osmdroid.R.drawable.zoom_out);
+		ivZoomIn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				SampleExtensive.this.mOsmvController.zoomIn();
+			}
+		});
 
-			/* Create RelativeLayoutParams, that position it in the top left corner. */
-			final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(
-					RelativeLayout.LayoutParams.WRAP_CONTENT,
-					RelativeLayout.LayoutParams.WRAP_CONTENT);
-			zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-			zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			rl.addView(ivZoomOut, zoomoutParams);
+		/* Create a ImageView with a zoomOut-Icon. */
+		final ImageView ivZoomOut = new ImageView(this);
+		ivZoomOut.setImageResource(org.osmdroid.R.drawable.zoom_out);
 
-			ivZoomOut.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					SampleExtensive.this.mOsmvController.zoomOut();
-				}
-			});
-		}
+		/* Create RelativeLayoutParams, that position it in the top left corner. */
+		final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.WRAP_CONTENT,
+				RelativeLayout.LayoutParams.WRAP_CONTENT);
+		zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		rl.addView(ivZoomOut, zoomoutParams);
+
+		ivZoomOut.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				SampleExtensive.this.mOsmvController.zoomOut();
+			}
+		});
 
 		/* MiniMap */
-		{
-			mMiniMapOverlay = new MinimapOverlay(this, mOsmv.getTileRequestCompleteHandler());
-			this.mOsmv.getOverlays().add(mMiniMapOverlay);
-		}
+		mMiniMapOverlay = new MinimapOverlay(this, mOsmv.getTileRequestCompleteHandler());
+		this.mOsmv.getOverlays().add(mMiniMapOverlay);
 
 		// PathOverlay pathOverlay = new PathOverlay(Color.RED, this);
 		// pathOverlay.addPoint(new GeoPoint(40.714623, -74.006605));
